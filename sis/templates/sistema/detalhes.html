@@ -1,0 +1,10 @@
+{{ ocp }}
+<img src="{{ ocp.Imagem }}">
+
+<ul>
+    {% for pessoa in ocp.pessoa_set.all %}
+    <li>
+        {{ pessoa.Nome }} - {{ pessoa.Telefone }}
+    </li>
+    {% endfor %}
+</ul>

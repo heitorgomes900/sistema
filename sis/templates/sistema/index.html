@@ -1,0 +1,11 @@
+{% if all_ocp %}
+<ul>
+    {% for ocp in all_ocp %}
+    <li>
+        <a href="{% url 'sis:detalhes' ocp.id %}">{{ ocp.Nome }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+    <h4>Não existem ocupações registradas</h4>
+{% endif %}
