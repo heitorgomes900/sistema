@@ -30,5 +30,16 @@ def detalhes(request, ocp_id):
     return render(request, 'sistema/detalhes.html', {'ocp':ocp})
     #return HttpResponse("<h1>detalhes do id da ocupacao" + str(ocp_id) + "</h1>")
 
-def frequente(request):
-    
+def frequente(request, ocp_id):
+    ocp = get_object_or_404(Ocupacao, pk=ocp_id)
+    try:
+        selected_pessoa = ocp.pessoa_set.get(pk=request.POST['pessoa'])
+    except (KeyError, Pessoa.DoesNotExist):
+        return render(request, 'sistema/detalhes.html', {
+            'error_message': 'Voce nao selecionou uma pessoa existente',
+            'ocp':ocp
+        })
+    else:
+        selected_pessoa.Frequente = True
+        selected_pessoa.save()
+        return render(request, 'sistema/detalhes.html', {'ocp':ocp})

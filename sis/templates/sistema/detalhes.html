@@ -1,10 +1,27 @@
+{% extends 'sistema/base.html' %}   
+
+{% block cabecalho %}
+
 {{ ocp }}
 <img src="{{ ocp.Imagem }}">
 
-<ul>
+{% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+{% endif %}
+
+<form action="{% url 'sistema:frequente' ocp.id %}" method="POST">
+    {% csrf_token  %}
     {% for pessoa in ocp.pessoa_set.all %}
-    <li>
-        {{ pessoa.Nome }} - {{ pessoa.Telefone }}
-    </li>
+        <input type="radio" id="pessoa{{ forloop.counter }}" name="pessoa" value="{{ pessoa.id }}">
+        <label for="pessoa{{ forloop.counter }}">
+            {{ pessoa.Nome }} - {{ pessoa.Telefone }}
+            {% if pessoa.Frequente %}
+                <img src="https://esferatur.com.br/wp-content/uploads/2017/08/checked.png" width="50px">
+            {% endif %}
+        </label>
+        <br>
     {% endfor %}
-</ul>
+    <input type="submit" value="Frequente">
+</form>
+
+{% endblock %}
