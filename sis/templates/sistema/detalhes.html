@@ -1,27 +1,48 @@
-{% extends 'sistema/base.html' %}   
+{% extends 'sistema/base.html' %}
 
 {% block cabecalho %}
 
-{{ ocp }}
-<img src="{{ ocp.Imagem }}">
-
+{% load staticfiles %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center my-5">
+            <h5>{{ ocp.Descricao}}</h5>
+            <img src="{% static 'sistema/imagens/' %}{{ ocp.Imagem }}" width="35%">
+            <h5 class="mt-3" text-muted>Lista de {{ ocp.Nome }}</h5>
+        </div>
+    </div>
+</div>
 {% if error_message %}
-    <p><strong>{{ error_message }}</strong></p>
+<p><strong>{{ error_message }}</strong></p>
 {% endif %}
 
 <form action="{% url 'sistema:frequente' ocp.id %}" method="POST">
-    {% csrf_token  %}
+    {% csrf_token %}
     {% for pessoa in ocp.pessoa_set.all %}
-        <input type="radio" id="pessoa{{ forloop.counter }}" name="pessoa" value="{{ pessoa.id }}">
-        <label for="pessoa{{ forloop.counter }}">
-            {{ pessoa.Nome }} - {{ pessoa.Telefone }}
-            {% if pessoa.Frequente %}
-                <img src="https://esferatur.com.br/wp-content/uploads/2017/08/checked.png" width="50px">
-            {% endif %}
-        </label>
-        <br>
+    <div class="row justify-content-sm-center">
+        <div class="col-sm-6 col-md-5">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <input type="radio" id="pessoa{{ forloop.counter }}" name="pessoa" value="{{ pessoa.id }}">
+                    <label for="pessoa{{ forloop.counter }}">
+                        {{ pessoa.Nome }} - Tel: {{ pessoa.Telefone }} - Membro Frequente:
+                        {% if pessoa.Frequente %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Green_check.svg/600px-Green_check.svg.png"
+                            width="20px">
+                        {% else %}
+                        <img src="https://vignette3.wikia.nocookie.net/sims/images/a/aa/Red_x_cross_uncheck_bad.svg/revision/latest?cb=20100801061453"
+                            width="20px">
+                        {% endif %}
+                    </label>
+                </li>
+            </ul>
+        </div>
+    </div>
     {% endfor %}
-    <input type="submit" value="Frequente">
+    <div class="row justify-content-sm-center mt-3">
+        <input class="btn btn-success" type="submit" value="Frequente">
+    </div>
+
 </form>
 
 {% endblock %}

@@ -1,18 +1,37 @@
-
 {% extends 'sistema/base.html' %}
 
 {% block cabecalho %}
+{% load staticfiles %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center my-5">
+            <h3 class="display-3">
+                <i class="fas fa-church mr-2"></i> Bem Vindos!!
+            </h3>
+            <p>Seja Bem Vindo ao cadastro. Gerencie com sabedoria!</p>
+        </div>
+    </div>
+</div>
 
 {% if all_ocp %}
-<ul>
-    {% for ocp in all_ocp %}
-    <li>
-        <a href="{% url 'sistema:detalhes' ocp.id %}">{{ ocp.Nome }}</a>
-    </li>
-    {% endfor %}
-</ul>
-{% else %}
+<div class="row justify-content-sm-center mx-3">
+        {% for ocp in all_ocp %}
+
+        <div class="com-sm-6 col-md-4 mb-5">
+            <div class="card">
+                <img src="{% static 'sistema/imagens/' %}{{ ocp.Imagem }}" width="100%">
+                <div class="card-body">
+                    <h4 class="card-title">{{ ocp.Nome }}</h4>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ ocp.Descricao }}</h6>
+                    <p class="card-text">{{ ocp.DescricaoLong }}</p>
+                    <a href="{% url 'sistema:detalhes' ocp.id %}" class="card-link">Veja mais</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
     <h4>Não existem ocupações registradas</h4>
 {% endif %}
-
+</div>
 {% endblock %}

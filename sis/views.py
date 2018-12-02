@@ -43,3 +43,4 @@ def frequente(request, ocp_id):
         selected_pessoa.Frequente = True
         selected_pessoa.save()
         return render(request, 'sistema/detalhes.html', {'ocp':ocp})
+
